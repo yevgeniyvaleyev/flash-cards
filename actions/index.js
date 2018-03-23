@@ -1,5 +1,6 @@
 import { isDataValid } from '../utils/validators';
 import * as actionCreators from './action-creators'; 
+import * as api from '../utils/api';
 
 export const addDeck = (title) => (dispatch, getState) => {
 
@@ -11,8 +12,22 @@ export const addDeck = (title) => (dispatch, getState) => {
     id: '_' + Math.random(),
     name: title
   }
-  dispatch(actionCreators.onDeckAdded(newDeck));
+
+  api.addDeck(newDeck).then(() => {
+    dispatch(actionCreators.onDeckAdded(newDeck))
+  });
 }
+
+export const getDecks = () => (dispatch, getState) =>
+  api.getDecks().then((decks) => {
+    dispatch(actionCreators.onDecksFetched(decks))
+  });
+
+export const getCards = (deckId) => (dispatch, getState) =>
+  api.getCards(deckId).then((cards) => {
+    debugger
+    dispatch(actionCreators.onCardsFetched(cards))
+  });
 
 export const addCard = (cardData) => (dispatch, getState) => {
   const fields = ['deckId', 'question', 'answer'];
@@ -27,5 +42,8 @@ export const addCard = (cardData) => (dispatch, getState) => {
     question: cardData.question,
     answer: cardData.answer
   }
-  dispatch(actionCreators.onCardAdded(newCard));
+
+  api.addCard(newCard).then(() => {
+    dispatch(actionCreators.onCardAdded(newCard));
+  });
 }

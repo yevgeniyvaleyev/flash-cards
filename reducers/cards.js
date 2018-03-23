@@ -1,4 +1,4 @@
-import { CARD_ADDED } from '../actions/types';
+import { CARD_ADDED, CARDS_FETCHED } from '../actions/types';
 
 const cardsItitState = Array(20).fill().map((_, i) => ({ 
   id: i, 
@@ -7,11 +7,18 @@ const cardsItitState = Array(20).fill().map((_, i) => ({
   answer: 'A library for managing user interfaces'
 }));
 
-export const cards = (state = cardsItitState, action) => {
+export const cards = (state = [], action) => {
   if (action.type === CARD_ADDED) {
     return [
       ...state,
       action.payload
+    ]
+  }
+  if (action.type === CARDS_FETCHED) {
+    // TODO: check possible duplicates
+    return [
+      ...state,
+      ...action.payload
     ]
   }
 

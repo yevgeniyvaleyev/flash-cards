@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Platform } from 'react-native';
 import { StatusBarComponent } from './components/status-bar';
 import { green, white } from './utils/colors';
+import { setLocalNotification } from './utils/notification'
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Provider } from 'react-redux'
@@ -13,6 +14,7 @@ import DecksList from './components/decks-list';
 import { AddDeck } from './components/add-deck';
 import DeckDetails from './components/deck-details';
 import { AddCard } from './components/add-card';
+import { Quiz } from './components/quiz';
 
 const Tabs = TabNavigator({
   DecksList: {
@@ -63,6 +65,16 @@ const MainNavigator = StackNavigator({
       }
     })
   },
+  Quiz: {
+    screen: Quiz,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Quiz',
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: green,
+      }
+    })
+  },
   AddCard: {
     screen: AddCard,
     navigationOptions: {
@@ -76,7 +88,9 @@ const MainNavigator = StackNavigator({
 })
 
 export default class App extends React.Component {
-  
+  componentDidMount() {
+    setLocalNotification()
+  }
   render() {
     return (
       <Provider store={configureStore()}>

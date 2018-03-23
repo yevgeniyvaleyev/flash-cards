@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { AppLoading } from 'expo';
 import { getDeckById } from '../reducers/decks';
@@ -16,26 +16,46 @@ class DeckDetails extends Component {
     } 
 
     return (
-      <View>
+      <View style={styles.container}>
         <Text>{deck.name}</Text>
         <Text>{cards.length}</Text>
 
-        <Button
-          onPress={() => this.props.navigation.navigate(
-            'AddCard', { deckId }
-          )}
-          title="Add card"
-          color={green}
-        />
-        <Button
-          onPress={() => {}}
-          title="Start quiz"
-          color={green}
-        />
+        <View style={styles.button}>
+          <Button
+            onPress={() => this.props.navigation.navigate(
+              'AddCard', { deckId }
+            )}
+            title="Add card"
+            color={green}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            onPress={() => this.props.navigation.navigate(
+              'Quiz', { deckId }
+            )}
+            title="Start quiz"
+            color={green}
+          />
+        </View>
       </View>
     )
   }
 };
+
+const styles = StyleSheet.create({
+  container: {
+    margin: 10,
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center'
+  },
+  button: {
+    width: 200,
+    marginTop: 10,
+    marginBottom: 10
+  }
+})
 
 const mapStateToProps = (state, props) => ({
   deck: getDeckById(state, props.navigation.state.params.deckId),

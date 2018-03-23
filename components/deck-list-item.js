@@ -1,14 +1,34 @@
 import React, {Component} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { getCardsByParentId } from '../reducers/cards';
+import { connect } from 'react-redux';
+import { getCards } from '../actions';
 
-export const DeckListItem = ({name, count, onPress}) => (
-  <TouchableOpacity onPress={onPress}>
-    <View style={styles.container}>
-      <Text>{name}</Text>
-      <Text>{count}</Text>
-    </View>
-  </TouchableOpacity>
-)
+class DeckListItemComponent extends Component {
+  
+  componentDidMount () {
+    this.props.getCards(this.props.deckId)
+  }
+  
+  render () {
+    const {name, count, onPress} = this.props;
+
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <View style={styles.container}>
+          <Text>{name}</Text>
+          <Text>{count}</Text>
+        </View>
+      </TouchableOpacity>
+    )
+  }
+}
+
+const mapStateToProps = (state, {deckId}) => ({
+  count: getCardsByParentId(state, deckId).length
+})
+
+export const DeckListItem = connect(mapStateToProps, { getCards })(DeckListItemComponent)
 
 const styles = StyleSheet.create({
   container: {

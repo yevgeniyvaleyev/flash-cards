@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Platform } from 'react-native';
 import { green } from '../utils/colors';
 import { addCard } from '../actions';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ class AddCardComponent extends Component {
   constructor(props) {
     super(props);
     const { deckId } = this.props.navigation.state.params;
-    debugger
+    
     this.state = { 
       deckId, 
       question: '', 
@@ -17,30 +17,61 @@ class AddCardComponent extends Component {
     };
   }
 
+  isDataValid () {
+    return this.state.question && this.state.answer;
+  }
+
   render () {
     return (
-      <View>
-        <Text>What is the title of your new deck?</Text>
+      <View style={styles.container}>
+        <Text>Question:</Text>
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={styles.input}
           onChangeText={(question) => this.setState({question})}
           value={this.state.question}
         />
+        <Text>Answer:</Text>
         <TextInput
-          style={{height: 40, marginTop: 10, borderColor: 'gray', borderWidth: 1}}
+          style={styles.input}
           onChangeText={(answer) => this.setState({answer})}
           value={this.state.answer}
         />
-        <Button
-          onPress={() => {
-            this.props.addCard(this.state)
-          }}
-          title="Submit"
-          color={green}
-        />
+        <View style={styles.button}>
+          <Button
+            disabled={!this.isDataValid()}
+            onPress={() => {
+              this.props.addCard(this.state);
+              this.props.navigation.goBack();
+            }}
+            title="Submit"
+            color={green}
+          />
+        </View>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    margin: 10,
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center'
+  },
+  input: {
+    width: 300, 
+    height: 40, 
+    marginTop: 10,
+    marginBottom: 10,
+    borderColor: 'gray', 
+    borderWidth: Platform.OS === 'ios' ? 1 : 0
+  },
+  button: {
+    width: 200,
+    marginTop: 10,
+    marginBottom: 10
+  }
+})
 
 export const AddCard = connect(null, { addCard })(AddCardComponent)
