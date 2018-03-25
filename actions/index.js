@@ -25,7 +25,6 @@ export const getDecks = () => (dispatch, getState) =>
 
 export const getCards = (deckId) => (dispatch, getState) =>
   api.getCards(deckId).then((cards) => {
-    debugger
     dispatch(actionCreators.onCardsFetched(cards))
   });
 

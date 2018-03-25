@@ -1,14 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, Button, StyleSheet, Platform } from 'react-native';
-import { green } from '../utils/colors';
+import { View, Text, TextInput, Button, StyleSheet, Platform, Animated, KeyboardAvoidingView } from 'react-native';
+import { main } from '../utils/colors';
 import { addDeck } from '../actions';
+import { Styles } from '../utils/common-styles';
+import { SuccessMessage } from './success-message';
 
 class AddDeckComponent extends Component {
   
   constructor(props) {
     super(props);
-    this.state = { text: '' };
+    this.state = { 
+      bounceValue: new Animated.Value(0),
+      text: ''
+    };
+  }
+
+  addDeck  = () => {
+    const { bounceValue, text } = this.state;
+
+    this.props.addDeck(text);
+    this.setState({
+      text: ''
+    });
+    Animated.sequence([
+      Animated.timing(bounceValue, { duration: 200, toValue: 1}),
+      Animated.timing(bounceValue, { duration: 800, toValue: 0})
+    ]).start()
   }
 
   isDataValid () {
@@ -16,50 +34,37 @@ class AddDeckComponent extends Component {
   }
 
   render () {
+    const { bounceValue, text } = this.state;
+
     return (
-      <View style={styles.container}>
-        <Text>What is the title of your new deck?</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-        />
-        <View style={styles.button}>
-          <Button
-            disabled={!this.isDataValid()}
-            onPress={() => {
-              this.props.addDeck(this.state.text);
-              this.setState({
-                text: ''
-              })
-            }}
-            title="Add"
-            color={green}
+      <KeyboardAvoidingView 
+      behavior="padding" 
+      keyboardVerticalOffset={50}
+      style={Styles.VerticalContainer}>
+        <View style={[Styles.VerticalContainer, {justifyContent: 'center'}]}>
+          <SuccessMessage style={{flex: 1}} bounceValue={bounceValue}/>
+        </View>
+        <View style={[Styles.VerticalContainer, Styles.pageContainer]}>
+          <Text style={Styles.label}>What is the title of your new deck?</Text>
+          <TextInput
+            style={Styles.input}
+            onChangeText={(text) => this.setState({text})}
+            value={text}
           />
         </View>
-      </View>
+        <View style={Styles.bottomButtonsContainer}>
+          <View style={Styles.button}>
+            <Button
+              disabled={!this.isDataValid()}
+              onPress={this.addDeck}
+              title="Add"
+              color={main}
+            />
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    margin: 10,
-    flexDirection: 'column',
-    flex: 1,
-    alignItems: 'center'
-  },
-  input: {
-    width: 300, 
-    height: 40, 
-    borderColor: 'gray', 
-    borderWidth: Platform.OS === 'ios' ? 1 : 0
-  },
-  button: {
-    width: 200,
-    marginTop: 10,
-    marginBottom: 10
-  }
-})
 
 export const AddDeck = connect(null, { addDeck })(AddDeckComponent)

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
-import { green } from '../utils/colors';
 import { connect } from 'react-redux';
 import { getDecks } from '../reducers/decks';
 import { DeckListItem } from './deck-list-item';

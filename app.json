@@ -6,9 +6,9 @@
     "description": "The best flash cards app ever :)",
     "slug": "flashcards",
     "version": "1.0.0",
-    "icon": "https://tylermcginnis.com/udacifitness-512.png",
+    "icon": "./assets/flashcards512.png",
     "notification": {
-      "icon": "https://tylermcginnis.com/udacifitness-45.png"
+      "icon": "./assets/flashcards45.png"
     },
     "ios": {
       "bundleIdentifier": "org.flashcards.exp"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Platform } from 'react-native';
 import { StatusBarComponent } from './components/status-bar';
-import { green, white } from './utils/colors';
+import { main, base } from './utils/colors';
 import { setLocalNotification } from './utils/notification'
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
@@ -36,10 +36,10 @@ const Tabs = TabNavigator({
     header: null
   },
   tabBarOptions: {
-    activeTintColor: Platform.OS === 'ios' ? green : white,
+    activeTintColor: Platform.OS === 'ios' ? main : base,
     style: {
       height: 56,
-      backgroundColor: Platform.OS === 'ios' ? white : green,
+      backgroundColor: Platform.OS === 'ios' ? base : main,
       shadowColor: 'rgba(0, 0, 0, 0.24)',
       shadowOffset: {
         width: 0,
@@ -58,10 +58,10 @@ const MainNavigator = StackNavigator({
   DeckDetails: {
     screen: DeckDetails,
     navigationOptions: ({ navigation }) => ({
-      title: navigation.state.params.name,
-      headerTintColor: white,
+      title: `Deck: ${navigation.state.params.name}`,
+      headerTintColor: base,
       headerStyle: {
-        backgroundColor: green,
+        backgroundColor: main,
       }
     })
   },
@@ -69,9 +69,9 @@ const MainNavigator = StackNavigator({
     screen: Quiz,
     navigationOptions: ({ navigation }) => ({
       title: 'Quiz',
-      headerTintColor: white,
+      headerTintColor: base,
       headerStyle: {
-        backgroundColor: green,
+        backgroundColor: main,
       }
     })
   },
@@ -79,9 +79,9 @@ const MainNavigator = StackNavigator({
     screen: AddCard,
     navigationOptions: {
       title: 'Add Card',
-      headerTintColor: white,
+      headerTintColor: base,
       headerStyle: {
-        backgroundColor: green,
+        backgroundColor: main,
       }
     }
   }
@@ -95,7 +95,7 @@ export default class App extends React.Component {
     return (
       <Provider store={configureStore()}>
         <View style={{flex: 1}}>
-          <StatusBarComponent backgroundColor={green} barStyle="light-content" />
+          <StatusBarComponent backgroundColor={main} barStyle="light-content" />
           <MainNavigator />
         </View>
       </Provider>

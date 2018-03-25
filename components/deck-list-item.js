@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { getCardsByParentId } from '../reducers/cards';
 import { connect } from 'react-redux';
 import { getCards } from '../actions';
+import { Styles } from '../utils/common-styles';
 
 class DeckListItemComponent extends Component {
   
@@ -15,7 +16,7 @@ class DeckListItemComponent extends Component {
 
     return (
       <TouchableOpacity onPress={onPress}>
-        <View style={styles.container}>
+        <View style={[Styles.HorizontalContainer, Styles.listItem]}>
           <Text>{name}</Text>
           <Text>{count}</Text>
         </View>
