@@ -5,16 +5,17 @@
     "name": "FlashCards",
     "description": "The best flash cards app ever :)",
     "slug": "flashcards",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "icon": "./assets/flashcards512.png",
     "notification": {
       "icon": "./assets/flashcards45.png"
     },
     "ios": {
-      "bundleIdentifier": "org.flashcards.exp"
+      "bundleIdentifier": "pro.valeyev.flashcards"
     },
     "android": {
-      "package": "org.flashcards.exp"
+      "package": "pro.valeyev.flashcards",
+      "permissions": []
     }
   }
 }
